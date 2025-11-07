@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Underwater Turtle Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
+            cursor: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .water {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .wave1, .wave2 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230097a7" fill-opacity="0.4" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            animation: wave 15s linear infinite;
+        }
+        
+        .wave2 {
+            bottom: 10px;
+            opacity: 0.6;
+            animation: wave 10s linear infinite reverse;
+        }
+        
+        @keyframes wave {
+            0% {
+                background-position-x: 0;
+            }
+            100% {
+                background-position-x: 1000px;
+            }
+        }
+        
+        .bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: rise 10s infinite ease-in;
+        }
+        
+        .mirror .bubble {
+            animation-delay: -5s;
+        }
+        
+        .b1 { left: 10%; animation-duration: 8s; }
+        .b2 { left: 20%; animation-duration: 5s; animation-delay: 1s; }
+        .b3 { left: 30%; animation-duration: 7s; animation-delay: 2s; }
+        .b4 { left: 40%; animation-duration: 11s; animation-delay: 0s; }
+        .b5 { left: 50%; animation-duration: 6s; animation-delay: 1s; }
+        .b6 { left: 60%; animation-duration: 8s; animation-delay: 3s; }
+        .b7 { left: 70%; animation-duration: 7s; animation-delay: 2s; }
+        .b8 { left: 80%; animation-duration: 6s; animation-delay: 1s; }
+        .b9 { left: 90%; animation-duration: 9s; animation-delay: 0s; }
+        .b10 { left: 95%; animation-duration: 10s; animation-delay: 4s; }
+        
+        @keyframes rise {
+            0% {
+                bottom: -50px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(100px);
+            }
+            100% {
+                bottom: 1080px;
+                transform: translateX(-100px);
+            }
+        }
+        
+        /* Enhanced Turtle Design */
+        .turtle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s ease-out;
+            z-index: 10;
+        }
+        
+        .shell {
+            position: absolute;
+            width: 100px;
+            height: 70px;
+            background: #3a5f0b;
+            border-radius: 50% 50% 40% 40%;
+            top: 15px;
+            left: 20px;
+            z-index: 2;
+            box-shadow: 
+                inset 0 0 10px rgba(0,0,0,0.3),
+                0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .shell-pattern {
+            position: absolute;
+            width: 80px;
+            height: 50px;
+            top: 10px;
+            left: 10px;
+            border-radius: 40%;
+            background: 
+                radial-gradient(circle at 30% 30%, #4a7d1b 10%, transparent 10.5%),
+                radial-gradient(circle at 70% 30%, #4a7d1b 10%, transparent 10.5%),
+                radial-gradient(circle at 50% 60%, #4a7d1b 10%, transparent 10.5%),
+                radial-gradient(circle at 30% 70%, #4a7d1b 10%, transparent 10.5%),
+                radial-gradient(circle at 70% 70%, #4a7d1b 10%, transparent 10.5%);
+            z-index: 3;
+        }
+        
+        .head {
+            position: absolute;
+            width: 30px;
+            height: 25px;
+            background: #3a7d34;
+            border-radius: 50% 50% 40% 40%;
+            top: 40px;
+            left: 0;
+            z-index: 1;
+            animation: headMove 3s infinite alternate;
+        }
+        
+        .eyes {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            top: 8px;
+            left: 5px;
+        }
+        
+        .eyes::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            top: 0;
+            left: 12px;
+        }
+        
+        .eye-highlight {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        
+        .eye-highlight::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            top: 0;
+            left: 12px;
+        }
+        
+        .leg {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: #3a7d34;
+            border-radius: 40%;
+            z-index: 1;
+            animation: legMove 2s infinite alternate;
+        }
+        
+        .leg1 {
+            top: 20px;
+            left: 25px;
+            transform: rotate(-30deg);
+            animation-delay: 0s;
+        }
+        
+        .leg2 {
+            top: 20px;
+            right: 25px;
+            transform: rotate(30deg);
+            animation-delay: 0.5s;
+        }
+        
+        .leg3 {
+            bottom: 20px;
+            left: 25px;
+            transform: rotate(30deg);
+            animation-delay: 1s;
+        }
+        
+        .leg4 {
+            bottom: 20px;
+            right: 25px;
+            transform: rotate(-30deg);
+            animation-delay: 1.5s;
+        }
+        
+        .tail {
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: #3a7d34;
+            border-radius: 50% 0 0 50%;
+            top: 45px;
+            right: 0;
+            z-index: 1;
+            animation: tailMove 2s infinite alternate;
+        }
+        
+        .trail {
+            position: absolute;
+            width: 100px;
+            height: 20px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            top: 50px;
+            left: -60px;
+            z-index: 0;
+            animation: trailMove 1s infinite;
+        }
+        
+        @keyframes headMove {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-5px) rotate(5deg); }
+        }
+        
+        @keyframes legMove {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-3px) rotate(10deg); }
+        }
+        
+        @keyframes tailMove {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(10deg); }
+        }
+        
+        @keyframes trailMove {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+        
+        .seaweed {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 150px;
+            background: linear-gradient(to top, #2e7d32, #4caf50);
+            border-radius: 10px 10px 0 0;
+            animation: seaweedMove 4s infinite alternate;
+        }
+        
+        .seaweed:nth-child(1) {
+            left: 10%;
+            height: 120px;
+            animation-delay: 0s;
+        }
+        
+        .seaweed:nth-child(2) {
+            left: 25%;
+            height: 180px;
+            animation-delay: 0.5s;
+        }
+        
+        .seaweed:nth-child(3) {
+            left: 40%;
+            height: 100px;
+            animation-delay: 1s;
+        }
+        
+        .seaweed:nth-child(4) {
+            left: 60%;
+            height: 160px;
+            animation-delay: 1.5s;
+        }
+        
+        .seaweed:nth-child(5) {
+            left: 80%;
+            height: 140px;
+            animation-delay: 2s;
+        }
+        
+        @keyframes seaweedMove {
+            0% { transform: skewX(5deg); }
+            100% { transform: skewX(-5deg); }
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            z-index: 100;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            z-index: 100;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Underwater Turtle</div>
+    
+    <div class="water">
+        <div class="wave1"></div>
+        <div class="wave2"></div>
+    </div>
+    
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    <div class="seaweed"></div>
+    
+    <div class="bubbles">
+        <div class="bubble b1"></div>
+        <div class="bubble b2"></div>
+        <div class="bubble b3"></div>
+        <div class="bubble b4"></div>
+        <div class="bubble b5"></div>
+        <div class="bubble b6"></div>
+        <div class="bubble b7"></div>
+        <div class="bubble b8"></div>
+        <div class="bubble b9"></div>
+        <div class="bubble b10"></div>
+    </div>
+    
+    <div class="bubbles mirror">
+        <div class="bubble b1"></div>
+        <div class="bubble b2"></div>
+        <div class="bubble b3"></div>
+        <div class="bubble b4"></div>
+        <div class="bubble b5"></div>
+        <div class="bubble b6"></div>
+        <div class="bubble b7"></div>
+        <div class="bubble b8"></div>
+        <div class="bubble b9"></div>
+        <div class="bubble b10"></div>
+    </div>
+    
+    <div class="trail"></div>
+    
+    <div class="turtle">
+        <div class="shell">
+            <div class="shell-pattern"></div>
+        </div>
+        <div class="head">
+            <div class="eyes">
+                <div class="eye-highlight"></div>
+            </div>
+        </div>
+        <div class="leg leg1"></div>
+        <div class="leg leg2"></div>
+        <div class="leg leg3"></div>
+        <div class="leg leg4"></div>
+        <div class="tail"></div>
+    </div>
+    
+    <div class="instructions">
+        Move your cursor to guide the turtle through the underwater world
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const turtle = document.querySelector('.turtle');
+            const trail = document.querySelector('.trail');
+            
+            document.addEventListener('mousemove', function(e) {
+                // Move turtle to cursor position
+                turtle.style.left = e.clientX + 'px';
+                turtle.style.top = e.clientY + 'px';
+                
+                // Position trail behind the turtle
+                trail.style.left = (e.clientX - 60) + 'px';
+                trail.style.top = (e.clientY - 10) + 'px';
+                
+                // Rotate turtle based on movement direction
+                const turtleRect = turtle.getBoundingClientRect();
+                const turtleCenterX = turtleRect.left + turtleRect.width / 2;
+                const turtleCenterY = turtleRect.top + turtleRect.height / 2;
+                
+                const angle = Math.atan2(e.clientY - turtleCenterY, e.clientX - turtleCenterX);
+                turtle.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+            });
+        });
+    </script>
+</body>
+</html>
